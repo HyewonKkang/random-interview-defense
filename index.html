@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <title>JUGGLER</title>
+    </head>
+    <body>
+        <main class="list-main">
+            <img class="tape-img" src="/images/tape.png" />
+            <section class="content">
+                <div class="header">
+                    <img class="logo" src="images/logo.svg" alt="logo" />
+                    <p>면접 대비 랜덤 질문 생성기</p>
+                    <button class="start-button button">START</button>
+                </div>
+                <div class="textfield-container">
+                    <label for="textfield" class="textfield-label"
+                        >추가할 질문을 입력하세요.
+                        <input class="textfield" type="text" id="textfield" />
+                        <span class="input-icon">
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M19 12L13 6M19 12L13 18M19 12H5"
+                                    stroke="black"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                        </span>
+                    </label>
+                </div>
+                <div class="question-list-container">
+                    <ul class="question-list">
+                        <li>
+                            <div>
+                                <input type="checkbox" id="check1" class="checkbox" />
+                                <label for="check1"><span>스코프가 무엇인가요?</span></label>
+                            </div>
+                            <button class="eraser-button" type="button">
+                                <img src="/images/icons/eraser.png" />
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+        <div class="modal-wrapper">
+            <div class="modal">
+                <header>
+                    <img class="logo" src="images/logo.svg" alt="logo" />
+                    <button class="back-button button">BACK TO MAIN</button>
+                </header>
+                <main>
+                    <div class="title-bar">
+                        <p>Question 01</p>
+                        <p>1/15</p>
+                    </div>
+                    <div class="question-container">
+                        <p class="question-number">01.</p>
+                        <div class="question">
+                            스코프란 무엇인가요? 스코프란 무엇인가요? 스코프란 무엇인가요? 스코프란
+                            무엇인가요? 스코프란 무엇인가요?
+                        </div>
+                    </div>
+                    <div class="question-buttons-container">
+                        <button class="icon-button check-button"></button>
+                        <button class="icon-button skip-forward-button"></button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
