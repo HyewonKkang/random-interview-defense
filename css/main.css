@@ -25,6 +25,7 @@ body {
 
 .list-main {
     width: 40%;
+    min-width: 300px;
     height: 80%;
     background-color: var(--white);
     border-radius: 20px;
