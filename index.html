@@ -20,13 +20,13 @@
                 <div class="header">
                     <img class="logo" src="images/logo.svg" alt="logo" />
                     <p>면접 대비 랜덤 질문 생성기</p>
-                    <button class="start-button button">START</button>
+                    <button class="start-button button" type="button">START</button>
                 </div>
                 <div class="textfield-container">
                     <label for="textfield" class="textfield-label"
                         >추가할 질문을 입력하세요.
                         <input class="textfield" type="text" id="textfield" />
-                        <span class="input-icon">
+                        <a class="input-icon" role="button">
                             <svg
                                 width="20"
                                 height="20"
@@ -42,20 +42,26 @@
                                     stroke-linejoin="round"
                                 />
                             </svg>
-                        </span>
+                        </a>
                     </label>
                 </div>
                 <div class="question-list-container">
                     <ul class="question-list">
-                        <li>
-                            <div>
-                                <input type="checkbox" id="check1" class="checkbox" />
-                                <label for="check1"><span>스코프가 무엇인가요?</span></label>
-                            </div>
-                            <button class="eraser-button" type="button">
-                                <img src="/images/icons/eraser.png" />
-                            </button>
-                        </li>
+                        <template id="question-template">
+                            <li>
+                                <div>
+                                    <input type="checkbox" class="checkbox" />
+                                    <label><span></span></label>
+                                </div>
+                                <button
+                                    class="eraser-button"
+                                    type="button"
+                                    onclick="deleteQuestion(this)"
+                                >
+                                    <img src="/images/icons/eraser.png" />
+                                </button>
+                            </li>
+                        </template>
                     </ul>
                 </div>
             </section>
@@ -64,7 +70,7 @@
             <div class="modal">
                 <header>
                     <img class="logo" src="images/logo.svg" alt="logo" />
-                    <button class="back-button button">BACK TO MAIN</button>
+                    <button class="back-button button" type="button">BACK TO MAIN</button>
                 </header>
                 <main>
                     <div class="title-bar">
@@ -79,11 +85,13 @@
                         </div>
                     </div>
                     <div class="question-buttons-container">
-                        <button class="icon-button check-button"></button>
-                        <button class="icon-button skip-forward-button"></button>
+                        <button class="icon-button check-button" type="button"></button>
+                        <button class="icon-button skip-forward-button" type="button"></button>
                     </div>
                 </main>
             </div>
         </div>
+        <script src="js/app.js" />
+        <script src="js/utils.js" />
     </body>
 </html>
