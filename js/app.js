@@ -2,12 +2,32 @@ const textfield = document.querySelector('.textfield');
 const submitButton = document.querySelector('.input-icon');
 const questionListContainer = document.querySelector('.question-list');
 const questionTemplate = document.getElementById('question-template').content;
+const modalContainer = document.querySelector('.modal-wrapper');
+const startBtn = document.querySelector('.start-button');
+const backBtn = document.querySelector('.back-button');
+const checkBtn = document.querySelector('.check-button');
+const skipBtn = document.querySelector('.skip-forward-button');
+const questionElement = document.querySelector('.question');
+const questionNumberElement = document.querySelector('.number');
+const correctedCountElement = document.querySelector('.count');
+const totalCountElement = document.querySelector('.total');
 
 const question_list = [];
+const results = [];
+let cur_question = null;
+let corrected = 0;
+let count = 0;
+
+let showModal = false;
 
 function listen() {
     textfield.addEventListener('keyup', checkEnterKeyUp);
     submitButton.addEventListener('click', handleSubmit);
+
+    startBtn.addEventListener('click', handleStartButton);
+    backBtn.addEventListener('click', handleExitButton);
+    checkBtn.addEventListener('click', checkQuestion);
+    skipBtn.addEventListener('click', skipQuestion);
 }
 
 function checkEnterKeyUp(e) {
@@ -54,6 +74,66 @@ function deleteQuestion(idx) {
     if (typeof idx !== 'number') return;
     const delEl = questionListContainer.querySelector(`.question-${idx}`);
     questionListContainer.removeChild(delEl);
+}
+
+function handleStartButton() {
+    let questions = questionListContainer.querySelectorAll('li').length;
+    if (!questions) return;
+    showModal = true;
+    modalContainer.classList.add('modal-show');
+    totalCountElement.textContent = questions;
+    corrected = questions - getNotCheckedLi().length;
+    correctedCountElement.textContent = corrected;
+    cur_question = null;
+    setupQuestion();
+}
+
+function setupQuestion() {
+    cur_question = getRandomLiEl();
+    if (!cur_question) {
+        finish();
+        return;
+    }
+    const q = cur_question.querySelector('span').textContent;
+    questionElement.textContent = q;
+    count += 1;
+    questionNumberElement.textContent = count;
+}
+
+function finish() {
+    handleExitButton();
+}
+
+function handleExitButton() {
+    showModal = false;
+    modalContainer.classList.remove('modal-show');
+}
+
+function checkQuestion() {
+    const checkbox = cur_question.querySelector('.checkbox');
+    checkbox.checked = true;
+    corrected += 1;
+    correctedCountElement.textContent = corrected;
+    setupQuestion();
+}
+
+function skipQuestion() {
+    setupQuestion();
+}
+
+function getRandomLiEl() {
+    const filtered = getNotCheckedLi();
+    if (!filtered.length) return;
+    return filtered[Math.floor(Math.random() * filtered.length)];
+}
+
+function getNotCheckedLi() {
+    const questions = questionListContainer.querySelectorAll('li');
+    if (!questions) return;
+    return Array.from(questions).filter((li) => {
+        const checkbox = li.querySelector('.checkbox');
+        return !checkbox.checked;
+    });
 }
 
 (function init() {
