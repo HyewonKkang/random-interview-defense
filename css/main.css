@@ -211,7 +211,7 @@ body {
 
 .checkbox:checked + label:before {
     content: '';
-    background-image: url('images/icons/check.png');
+    background-image: url('../images/icons/check.png');
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -322,13 +322,13 @@ body {
 }
 
 .check-button {
-    background-image: url('images/icons/circle-check-fill.png');
+    background-image: url('../images/icons/circle-check-fill.png');
 }
 
 .skip-back-button {
-    background-image: url('images/icons/skip-back.png');
+    background-image: url('../images/icons/skip-back.png');
 }
 
 .skip-forward-button {
-    background-image: url('images/icons/skip-forward.png');
+    background-image: url('../images/icons/skip-forward.png');
 }
