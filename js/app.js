@@ -14,7 +14,6 @@ const correctedCountElement = document.querySelector('.count');
 const totalCountElement = document.querySelector('.total');
 
 const question_list = [];
-const results = [];
 let cur_question = null;
 let corrected = 0;
 let count = 0;
