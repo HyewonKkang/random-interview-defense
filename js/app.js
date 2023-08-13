@@ -9,6 +9,7 @@ const checkBtn = document.querySelector('.check-button');
 const skipBtn = document.querySelector('.skip-forward-button');
 const questionElement = document.querySelector('.question');
 const questionNumberElement = document.querySelector('.number');
+const questionFieldNumber = document.querySelector('.question-number');
 const correctedCountElement = document.querySelector('.count');
 const totalCountElement = document.querySelector('.total');
 
@@ -96,8 +97,15 @@ function setupQuestion() {
     }
     const q = cur_question.querySelector('span').textContent;
     questionElement.textContent = q;
+    setupQuestionNumber();
+}
+
+function setupQuestionNumber() {
     count += 1;
-    questionNumberElement.textContent = count;
+
+    const formattedCount = count.toString().padStart(2, '0');
+    questionNumberElement.textContent = `${formattedCount}.`;
+    questionFieldNumber.textContent = `${formattedCount}.`;
 }
 
 function finish() {
