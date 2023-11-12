@@ -41,7 +41,7 @@ function handleSubmit() {
     const input = textfield.value;
     if (input === '') return;
     addQuestion(input);
-    saveListToCookie();
+    saveListToLocalStorage();
     clearInput();
 }
 
@@ -54,7 +54,7 @@ function addQuestion(text) {
     const index = question_list.length;
     const liInfo = `check-${index}`;
 
-    question_list.push(replaceSemicolon(text));
+    question_list.push(text);
     spanEl.textContent = text;
 
     liEl.className = `question-${index}`;
@@ -80,7 +80,7 @@ function deleteQuestion(idx, text) {
     if (delIndex !== -1) {
         question_list.splice(delIndex, 1);
     }
-    saveListToCookie();
+    saveListToLocalStorage();
 }
 
 function handleStartButton() {
@@ -150,40 +150,62 @@ function getNotCheckedLi() {
     });
 }
 
-function saveListToCookie() {
-    const converted = JSON.stringify(question_list);
-    document.cookie = 'questionList=' + converted;
+function saveListToLocalStorage() {
+    localStorage.setItem('questionList', JSON.stringify(question_list));
 }
 
-function replaceSemicolon(str) {
-    return str.replace(/;/g, '');
-}
+// -- deprecated: 쿠키 크기 이슈
+//
+// function saveListToCookie() {
+//     const converted = JSON.stringify(question_list);
+//     document.cookie = 'questionList=' + converted;
+// }
 
-function getListFromCookie() {
-    const cookieData = document.cookie;
-    const cookieName = `questionList=`;
-    let cookieValue = '';
-    let start = cookieData.indexOf(cookieName);
-    if (start === -1) return null;
-    start += cookieName.length;
-    let end = cookieData.indexOf(';', start);
-    if (end === -1) end = cookieData.length;
-    cookieValue = cookieData.substring(start, end);
-    if (cookieValue && cookieValue !== 'undefined')
-        return JSON.parse(replaceSemicolon(cookieValue));
-}
+// function replaceSemicolon(str) {
+//     return str.replace(/;/g, '');
+// }
+
+// function getListFromCookie() {
+//     const cookieData = document.cookie;
+//     const cookieName = `questionList=`;
+//     let cookieValue = '';
+//     let start = cookieData.indexOf(cookieName);
+//     if (start === -1) return null;
+//     start += cookieName.length;
+//     let end = cookieData.indexOf(';', start);
+//     if (end === -1) end = cookieData.length;
+//     cookieValue = cookieData.substring(start, end);
+//     if (cookieValue && cookieValue !== 'undefined')
+//         return JSON.parse(replaceSemicolon(cookieValue));
+// }
 
 (function init() {
+    // deprecated
+    //
+    // let toImported = window.confirm(
+    //     '쿠키에 있는 정보를 가져오시겠습니까? 취소 시 이전 리스트는 삭제됩니다.',
+    // );
+    // if (toImported) {
+    //     let prevData = getListFromCookie();
+    //     if (prevData) {
+    //         for (let i = 0; i < prevData.length; i++) {
+    //             addQuestion(prevData[i]);
+    //         }
+    //     }
+    // }
+
     let toImported = window.confirm(
-        '쿠키에 있는 정보를 가져오시겠습니까? 취소 시 이전 리스트는 삭제됩니다.',
+        '로컬 스토리지에 저장된 정보를 가져오시겠습니까? 취소 시 이전 리스트는 삭제됩니다.',
     );
+
     if (toImported) {
-        let prevData = getListFromCookie();
+        let prevData = JSON.parse(localStorage.getItem('questionList'));
         if (prevData) {
             for (let i = 0; i < prevData.length; i++) {
                 addQuestion(prevData[i]);
             }
         }
     }
+
     listen();
 })();
