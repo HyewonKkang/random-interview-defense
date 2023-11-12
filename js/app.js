@@ -13,7 +13,7 @@ const questionFieldNumber = document.querySelector('.question-number');
 const correctedCountElement = document.querySelector('.count');
 const totalCountElement = document.querySelector('.total');
 
-const question_list = [];
+let question_list = [];
 let cur_question = null;
 let corrected = 0;
 let count = 0;
@@ -41,6 +41,7 @@ function handleSubmit() {
     const input = textfield.value;
     if (input === '') return;
     addQuestion(input);
+    saveListToCookie();
     clearInput();
 }
 
@@ -74,6 +75,8 @@ function deleteQuestion(idx) {
     if (typeof idx !== 'number') return;
     const delEl = questionListContainer.querySelector(`.question-${idx}`);
     questionListContainer.removeChild(delEl);
+    question_list.splice(idx, 1);
+    saveListToCookie();
 }
 
 function handleStartButton() {
@@ -143,6 +146,35 @@ function getNotCheckedLi() {
     });
 }
 
+function saveListToCookie() {
+    const converted = JSON.stringify(question_list);
+    document.cookie = 'questionList=' + converted;
+}
+
+function getListFromCookie() {
+    const cookieData = document.cookie;
+    const cookieName = `questionList=`;
+    let cookieValue = '';
+    let start = cookieData.indexOf(cookieName);
+    if (start === -1) return null;
+    start += cookieName.length;
+    let end = cookieData.indexOf(';', start);
+    if (end === -1) end = cookieData.length;
+    cookieValue = cookieData.substring(start, end);
+    if (cookieValue && cookieValue !== 'undefined') return JSON.parse(cookieValue);
+}
+
 (function init() {
+    let toImported = window.confirm(
+        '쿠키에 있는 정보를 가져오시겠습니까? 취소 시 이전 리스트는 삭제됩니다.',
+    );
+    if (toImported) {
+        let prevData = getListFromCookie();
+        if (prevData) {
+            for (let i = 0; i < prevData.length; i++) {
+                addQuestion(prevData[i]);
+            }
+        }
+    }
     listen();
 })();
