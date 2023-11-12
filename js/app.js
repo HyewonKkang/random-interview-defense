@@ -54,7 +54,7 @@ function addQuestion(text) {
     const index = question_list.length;
     const liInfo = `check-${index}`;
 
-    question_list.push(text);
+    question_list.push(replaceSemicolon(text));
     spanEl.textContent = text;
 
     liEl.className = `question-${index}`;
@@ -64,18 +64,22 @@ function addQuestion(text) {
     questionListContainer.appendChild(document.importNode(liEl, true));
 
     const foundedEraser = questionListContainer.querySelector(`.eraser-${index}`);
-    foundedEraser.addEventListener('click', () => deleteQuestion(index));
+    foundedEraser.addEventListener('click', () => deleteQuestion(index, text));
 }
 
 function clearInput() {
     textfield.value = '';
 }
 
-function deleteQuestion(idx) {
+function deleteQuestion(idx, text) {
     if (typeof idx !== 'number') return;
     const delEl = questionListContainer.querySelector(`.question-${idx}`);
     questionListContainer.removeChild(delEl);
-    question_list.splice(idx, 1);
+
+    const delIndex = question_list.indexOf(text);
+    if (delIndex !== -1) {
+        question_list.splice(delIndex, 1);
+    }
     saveListToCookie();
 }
 
@@ -151,6 +155,10 @@ function saveListToCookie() {
     document.cookie = 'questionList=' + converted;
 }
 
+function replaceSemicolon(str) {
+    return str.replace(/;/g, '');
+}
+
 function getListFromCookie() {
     const cookieData = document.cookie;
     const cookieName = `questionList=`;
@@ -161,7 +169,8 @@ function getListFromCookie() {
     let end = cookieData.indexOf(';', start);
     if (end === -1) end = cookieData.length;
     cookieValue = cookieData.substring(start, end);
-    if (cookieValue && cookieValue !== 'undefined') return JSON.parse(cookieValue);
+    if (cookieValue && cookieValue !== 'undefined')
+        return JSON.parse(replaceSemicolon(cookieValue));
 }
 
 (function init() {
